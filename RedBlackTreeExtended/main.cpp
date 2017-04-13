@@ -22,7 +22,8 @@ int main()
 	Node *t;
 	while (number != -666)
 	{
-		t = tree.get_element(number);
+		//t = tree.get_element(number);
+		t = tree.get_4delete_element(number);
 		if (t != tree.get_nil()) tree.delete_element(t);
 		else cout << "No such element!\n";
 		tree.show(tree.get_root(), 0);

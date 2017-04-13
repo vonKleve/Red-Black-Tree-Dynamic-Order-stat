@@ -28,6 +28,7 @@ public:
 	void right_rotate(Node *);
 
 	Node *get_element(double);
+	Node *get_4delete_element(double);
 	Node *get_root()const;
 	Node *get_nil()const;
 	Node *get_minimum(Node *);

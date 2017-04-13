@@ -137,6 +137,22 @@ Node * RBTreeExt::get_element(double val)
 	return temp;
 }
 
+Node * RBTreeExt::get_4delete_element(double val)
+{
+	Node * temp = root;
+	while (temp && temp != nil)
+	{
+		temp->subTreeSize--;
+		if (temp->key < val)
+			temp = temp->right;
+		else if (temp->key > val)
+			temp = temp->left;
+		else
+			break;
+	}
+	return temp;
+}
+
 Node * RBTreeExt::get_root() const
 {
 	return root;
@@ -149,7 +165,10 @@ Node * RBTreeExt::get_nil() const
 
 Node * RBTreeExt::get_minimum(Node *x)
 {
-	while (x->left && x->left != nil) x = x->left;
+	while (x->left && x->left != nil) { 
+		x->subTreeSize--;
+		x = x->left;
+	}
 	return x;
 }
 
@@ -165,6 +184,7 @@ void RBTreeExt::delete_element(Node *x)
 {
 	Node *y = x;
 	Node *z;
+	int oldSize = x->subTreeSize;
 	bool yInitColor = y->color;
 	if (x->left == nil)
 	{
@@ -179,8 +199,10 @@ void RBTreeExt::delete_element(Node *x)
 	else
 	{
 		y = get_minimum(x->right);
+
 		yInitColor = y->color;
 		z = y->right;
+
 		if (y->parent == x)
 			z->parent = y;
 		else
@@ -193,6 +215,9 @@ void RBTreeExt::delete_element(Node *x)
 		y->left = x->left;
 		y->left->parent = y;
 		y->color = x->color;
+
+		int right = y->right->subTreeSize, left = y->left->subTreeSize;
+		y->subTreeSize = right + left + 1;
 	}
 	if (!yInitColor)
 		delete_fixup(z);
